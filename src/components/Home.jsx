@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import { Card,Container } from 'react-bootstrap';
 import SortingVisualizer from './Sorting/Visualizer/SortingVisualizer';
 

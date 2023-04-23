@@ -11,6 +11,10 @@ import PublicRoutes from './utils/PublicRoutes';
 import { useState } from 'react';
 import Index from './components/ECOMM/Index';
 import Body from './components/ECOMM/components/Body';
+import Cart from './components/ECOMM/components/Cart';
+import OrderSuccess from './components/ECOMM/components/OrderSuccess';
+import Details from './components/Dashboard/Details';
+import ProductDetails from './components/ECOMM/components/ProductDetails';
 function App() {
   const [storage, addStorage] = useState(false);
   const appStore = useSelector(state=>state.storenav);
@@ -23,7 +27,11 @@ function App() {
     addStorage(!storage);
   };
 
-  const store = <><Index /><Routes><Route path='/' element={<Body/>} exact /></Routes></>;
+  const store = <><Index /><Routes><Route path='/' element={<Body/>} exact />
+  <Route path='/cart' element={<Cart/>} />
+  <Route path='/details/:id' element={<ProductDetails />} />
+  <Route path='/success' element={<OrderSuccess />} />
+  </Routes></>;
   const header = <Header setStorage={setStorage} />; 
   const routes = <Routes>
     <Route element={<PrivateRoutes />}>

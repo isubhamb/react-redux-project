@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { gotoStore } from '../redux/Slices/appSlice';
 function Header({ setStorage }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <Navbar bg="dark" expand="lg" variant="dark">
       <Container>
@@ -29,7 +30,10 @@ function Header({ setStorage }) {
               </>
             ) : (
               <>
-              <Button onClick={()=> dispatch(gotoStore())} className="btn btn-success">STORE DEMO</Button>
+              <Button onClick={()=> {
+                dispatch(gotoStore());
+                navigate("/");
+                }} className="btn btn-success">STORE DEMO</Button>
               &nbsp;
               <Link  className="btn btn-success" to="/login">
                 LOGIN

@@ -31,3 +31,15 @@ export function fetchProducts(){
         .catch(()=> dispatch(setStatus("error")));
     };
 };
+
+export function fetchFromCategory(getCategory){
+    return function fetchProductThunk(dispatch){
+        dispatch(setStatus("loading"));
+        axios.get(`https://fakestoreapi.com/products/category/${getCategory}`)
+        .then((res)=>{
+            dispatch(setStatus("idle"));
+            dispatch(getProducts(res.data));
+        })
+        .catch(()=> dispatch(setStatus("error")));
+    };
+};
