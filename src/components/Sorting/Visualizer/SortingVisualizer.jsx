@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Form,Row,Col,Button } from 'react-bootstrap';
 import { getMergeSortAnimations } from '../Algorithms/MergeSort';
+import { bubbleSort } from '../Algorithms/BubbleSort';
 
 // Change this value for the speed of the animations.
 const ANIMATION_SPEED_MS = 10;
@@ -13,7 +14,8 @@ const NUMBER_OF_ARRAY_BARS = 33;
 const PRIMARY_COLOR = 'blue';
 
 // This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = 'red';
+const COMPARE_COLOR = 'red';
+const SWAP_COLOR = 'green';
 
 const SortingVisualizer = () => {
 
@@ -46,10 +48,12 @@ const SortingVisualizer = () => {
       };
 
       const sortHandler = () => {
-        if(optionSetected==="merge-sort"){
-            mergeSort();
+        if(optionSetected==="selection-sort"){
         }
-        else{
+        else if(optionSetected==="bubble-sort"){
+          bubbleSortHandle();
+        }
+        else if(optionSetected==="insertion-sort"){
 
         }
       };
@@ -79,32 +83,76 @@ const SortingVisualizer = () => {
         window.location.reload(false);
       }
 
-      const mergeSort = () => {
+      const bubbleSortHandle = () => {
+        const copy = [...arrayToSort];
+        const moves = bubbleSort(copy);
+        animate(moves);
+      };
+
+      const animate = (moves) => {
         setEnabled();
-        const animations = getMergeSortAnimations(arrayToSort);
-        for (let i = 0; i < animations.length; i++) {
-          const arrayBars = document.getElementsByClassName('array-bar');
-          const isColorChange = i % 3 !== 2;
-          if (isColorChange) {
-            const [barOneIdx, barTwoIdx] = animations[i];
-            const barOneStyle = arrayBars[barOneIdx].style;
-            const barTwoStyle = arrayBars[barTwoIdx].style;
-            const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
-            setTimeout(() => {
-              barOneStyle.backgroundColor = color;
-              barTwoStyle.backgroundColor = color;
-            }, i * speed);
-          } else {
-            setTimeout(() => {
-              const [barOneIdx, newHeight] = animations[i];
-              const barOneStyle = arrayBars[barOneIdx].style;
-              const barOneElement = arrayBars[barOneIdx];
-              barOneStyle.height = `${newHeight}px`;
-              barOneElement.innerHTML = `${newHeight}`;
-            }, i * speed);
+        if (moves.length === 0) {
+          showBars();
+          return;
+        }
+        const move = moves.shift();
+        const [i, j] = move.indices;
+        if (move.type === "swap") {
+          [arrayToSort[i], arrayToSort[j]] = [arrayToSort[j], arrayToSort[i]];
+        }
+        showBars(move);
+        setTimeout(function () {
+          animate(moves);
+        }, speed);
+      };
+
+      const showBars = (move) => {
+        const container = document.getElementById("container");
+        container.innerHTML = "";
+        for (let j = 0; j < NUMBER_OF_ARRAY_BARS; j++) {
+          const bar = document.createElement("div");
+          bar.id = "array-bar";
+          bar.style.height = arrayToSort[j] + "px";
+          bar.style.maxWidth = "35px";
+          bar.style.color = "white";
+          bar.style.overflow = "hidden";
+          bar.style.display = "inline-block"
+          bar.style.backgroundColor = PRIMARY_COLOR;
+          bar.innerHTML = arrayToSort[j];
+          if (move && move.indices.includes(j)) {
+            bar.style.backgroundColor = move.type === "swap" ? SWAP_COLOR : COMPARE_COLOR;
           }
+          container.appendChild(bar);
         }
       };
+
+
+      // const mergeSort = () => {
+      //   setEnabled();
+      //   const animations = getMergeSortAnimations(arrayToSort);
+      //   for (let i = 0; i < animations.length; i++) {
+      //     const arrayBars = document.getElementsByClassName('array-bar');
+      //     const isColorChange = i % 3 !== 2;
+      //     if (isColorChange) {
+      //       const [barOneIdx, barTwoIdx] = animations[i];
+      //       const barOneStyle = arrayBars[barOneIdx].style;
+      //       const barTwoStyle = arrayBars[barTwoIdx].style;
+      //       const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+      //       setTimeout(() => {
+      //         barOneStyle.backgroundColor = color;
+      //         barTwoStyle.backgroundColor = color;
+      //       }, i * speed);
+      //     } else {
+      //       setTimeout(() => {
+      //         const [barOneIdx, newHeight] = animations[i];
+      //         const barOneStyle = arrayBars[barOneIdx].style;
+      //         const barOneElement = arrayBars[barOneIdx];
+      //         barOneStyle.height = `${newHeight}px`;
+      //         barOneElement.innerHTML = `${newHeight}`;
+      //       }, i * speed);
+      //     }
+      //   }
+      // };
     
 
   return (
@@ -113,9 +161,9 @@ const SortingVisualizer = () => {
         <Col md="3">
         <Form.Select disabled={!enabled} onChange={(e)=>optionSelectHandler(e)}>
           <option value="nothing">Select An Algorithm</option>
-          <option value="merge-sort">Merge Sort</option>
-          <option value="insertion-sort">Insertion Sort</option>
           <option value="bubble-sort">Bubble Sort</option>
+          <option value="selection-sort">Selection Sort</option>
+          <option value="insertion-sort">Insertion Sort</option>
         </Form.Select>
         </Col>
         <Col md="3"><Button disabled={!enabled} onClick={() => resetArrayHandler()} className='btn btn-success'>Reset Array</Button></Col>
@@ -134,8 +182,8 @@ const SortingVisualizer = () => {
             }} className='btn btn-danger'>Stop Sorting</Button>
         </Col>
       </Row>
-      <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",height:"420px",border:"2px black solid"}} className='m-2'>{arrayToSort.map((value, idx) => (
-        <div className='array-bar' style={{height:`${value}.px`,overflow:"hidden",backgroundColor:"blue",maxWidth:"35px",color:"white",display:"inline-block"}} key={idx}>{value}</div>
+      <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",height:"420px",border:"2px black solid"}} id='container' className='m-2'>{arrayToSort.map((value, idx) => (
+        <div id='array-bar' style={{height:`${value}.px`,overflow:"hidden",backgroundColor:"blue",maxWidth:"35px",color:"white",display:"inline-block"}} key={idx}>{value}</div>
         ))}
     </div>
     </>
