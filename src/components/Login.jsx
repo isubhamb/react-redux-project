@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaArrowAltCircleRight } from 'react-icons/fa';
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -41,7 +42,7 @@ const Login = ({ setStorage }) => {
         <Col md="6">
           <Card>
             <Card.Header className="p-3" style={{ textAlign: 'center' }}>
-              <h4>LOGIN HERE</h4>
+              <h4>LOGIN HERE <FaArrowAltCircleRight /> </h4>
             </Card.Header>
             <Card.Body>
               <Form
@@ -76,6 +77,7 @@ const Login = ({ setStorage }) => {
                     type="submit"
                     value="Login"
                   />
+                  
                 </Form.Group>
               </Form>
             </Card.Body>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar,Container,Nav } from 'react-bootstrap';
+import { FaCartPlus,FaArrowAltCircleLeft,FaShoppingBag,FaSearch } from 'react-icons/fa';
 import { backtoHome } from '../../../redux/Slices/appSlice';
 import { fetchProducts, fetchFromCategory,getProducts,setStatus } from '../../../redux/Slices/productSlice';
 import { clearCart } from '../../../redux/Slices/cartSlice';
@@ -58,7 +59,7 @@ const Header = () => {
     <Navbar bg="dark" expand="lg" variant="dark">
       <Container>
         <Link to="/" className="navbar-brand">
-          DEMO STORE
+          <FaShoppingBag /> DEMO STORE
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -78,13 +79,13 @@ const Header = () => {
               </datalist>
               <div class="input-group-btn">
                 <button class=" btn btn-success ms-2" type="submit">
-                  Search
+                  <FaSearch /> Search
                 </button>
                 </div>
                </div>
               </form>
-            <Link to="/cart" className='nav-link active'>CART: {selector.length} </Link>&nbsp;
-            <Nav.Link className='btn btn-warning text-dark' onClick={()=>backHomeHandler()}>BACK TO APP HOMEPAGE</Nav.Link>
+            <Link to="/cart" className='nav-link active'><FaCartPlus /> CART: {selector.length} </Link>&nbsp;
+            <Nav.Link className='btn btn-warning text-dark' onClick={()=>backHomeHandler()}><FaArrowAltCircleLeft /> BACK TO APP HOMEPAGE</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaUndo,FaArrowAltCircleRight,FaStopCircle } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { Form,Row,Col,Button } from 'react-bootstrap';
 import { bubbleSort } from '../Algorithms/BubbleSort';
@@ -179,7 +180,7 @@ const SortingVisualizer = () => {
           <option value="insertion-sort">Insertion Sort</option>
         </Form.Select>
         </Col>
-        <Col md="3"><Button disabled={!enabled} onClick={() => resetArrayHandler()} className='btn btn-success'>Reset Array</Button></Col>
+        <Col md="3"><Button disabled={!enabled} onClick={() => resetArrayHandler()} className='btn btn-success'><FaUndo /> Reset Array</Button></Col>
         <Col md="3">
         <Form.Select disabled={!enabled} onChange={(e)=>speedHandler(e)}>
           <option value="nothing">Select Animation Speed</option>
@@ -188,11 +189,11 @@ const SortingVisualizer = () => {
           <option value="low">LOW</option>
         </Form.Select>
         </Col>
-        <Col md="3"><Button disabled={!enabled} onClick={()=>sortHandler()} className='btn btn-success'>Start Sorting</Button>
+        <Col md="3"><Button disabled={!enabled} onClick={()=>sortHandler()} className='btn btn-success'><FaArrowAltCircleRight /> Start Sorting</Button>
         <Button style={{marginLeft:"5px"}} disabled={enabled} onClick={()=>{
             setEnabledState(true);
             refreshPage();
-            }} className='btn btn-danger'>Stop Sorting</Button>
+            }} className='btn btn-danger'><FaStopCircle />Stop Sorting</Button>
         </Col>
       </Row>
       <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",height:"420px",border:"2px black solid"}} id='container' className='m-2'>{arrayToSort.map((value, idx) => (

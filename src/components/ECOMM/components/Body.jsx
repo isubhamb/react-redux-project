@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { Card, Col, Container, Row, Button,Spinner } from 'react-bootstrap';
+import { FaPlus } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../../../redux/Slices/productSlice';
 import { addToCart } from '../../../redux/Slices/cartSlice';
@@ -48,7 +49,7 @@ else
                         <Button onClick={(e)=>{
                             dispatch(addToCart(d));
                             e.stopPropagation();
-                            }} className="btn btn-primary">Add to cart</Button>
+                            }} className="btn btn-primary"><FaPlus /> Add to cart</Button>
                         </div>
                         </Card.Body>
                         </Card>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaGlasses,FaShoppingBasket,FaHouzz,FaArrowAltCircleRight,FaArrowAltCircleLeft } from 'react-icons/fa';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Link,useNavigate } from 'react-router-dom';
@@ -10,7 +11,7 @@ function Header({ setStorage }) {
     <Navbar bg="dark" expand="lg" variant="dark">
       <Container>
         <Link className="navbar-brand" to="/">
-          Subham's Projects
+          <FaGlasses /> Subham's Projects
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -18,7 +19,7 @@ function Header({ setStorage }) {
             {localStorage.getItem('USERNAME') === 'Admin' ? (
               <>
                 <Link className="nav-link active" to="/dashboard">
-                  Dashboard
+                  <FaHouzz /> Dashboard
                 </Link>
                 <Link className="nav-link active" to="/flighttracker">
                   Flight Tracker
@@ -28,7 +29,7 @@ function Header({ setStorage }) {
                   onClick={() => setStorage(false)}
                   to="/"
                 >
-                  LOGOUT
+                  <FaArrowAltCircleLeft /> LOGOUT
                 </Link>
               </>
             ) : (
@@ -36,10 +37,10 @@ function Header({ setStorage }) {
               <Button onClick={()=> {
                 dispatch(gotoStore());
                 navigate("/");
-                }} className="btn btn-success">STORE DEMO</Button>
+                }} className="btn btn-success"><FaShoppingBasket /> STORE DEMO</Button>
               &nbsp;
               <Link  className="btn btn-success" to="/login">
-                LOGIN
+                <FaArrowAltCircleRight /> LOGIN
               </Link>
               </>
             )}
