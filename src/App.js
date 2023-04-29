@@ -13,8 +13,9 @@ import Index from './components/ECOMM/Index';
 import Body from './components/ECOMM/components/Body';
 import Cart from './components/ECOMM/components/Cart';
 import OrderSuccess from './components/ECOMM/components/OrderSuccess';
-import Details from './components/Dashboard/Details';
 import ProductDetails from './components/ECOMM/components/ProductDetails';
+import ControlPanel from './components/FLIGHTTRACKER/ControlPanel';
+import Footer from './components/Footer';
 function App() {
   const [storage, addStorage] = useState(false);
   const appStore = useSelector(state=>state.storenav);
@@ -31,11 +32,12 @@ function App() {
   <Route path='/cart' element={<Cart/>} />
   <Route path='/details/:id' element={<ProductDetails />} />
   <Route path='/success' element={<OrderSuccess />} />
-  </Routes></>;
+  </Routes><Footer /></>;
   const header = <Header setStorage={setStorage} />; 
-  const routes = <Routes>
+  const routes = <><Routes>
     <Route element={<PrivateRoutes />}>
       <Route element={<DashBoard />} path="/dashboard" exact />
+      <Route element={<ControlPanel />} path="/flighttracker" exact />
     </Route>
     <Route element={<PublicRoutes />}>
       <Route element={<Home />} path="/" exact />
@@ -46,7 +48,7 @@ function App() {
       />
     </Route>
     <Route path="*" element={<NotFound />}/>
-  </Routes>;
+  </Routes><Footer /></>;
 
   return (
     <div className="App">

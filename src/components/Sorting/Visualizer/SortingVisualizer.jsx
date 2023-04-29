@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Form,Row,Col,Button } from 'react-bootstrap';
-import { getMergeSortAnimations } from '../Algorithms/MergeSort';
 import { bubbleSort } from '../Algorithms/BubbleSort';
+import { selectionSort } from '../Algorithms/SelectionSort';
+import { insertionSort } from '../Algorithms/InsertionSort';
 
 // Change this value for the speed of the animations.
 const ANIMATION_SPEED_MS = 10;
@@ -40,7 +41,6 @@ const SortingVisualizer = () => {
       const resetArrayHandler = () => {
         resetArray();
       };
-
       const optionSelectHandler = (e) => {
         if(e.target.value!=="nothing"){
             setOptionSelected(e.target.value);
@@ -49,12 +49,13 @@ const SortingVisualizer = () => {
 
       const sortHandler = () => {
         if(optionSetected==="selection-sort"){
+          selectionSortHandle();
         }
         else if(optionSetected==="bubble-sort"){
           bubbleSortHandle();
         }
         else if(optionSetected==="insertion-sort"){
-
+          insertionSortHandle();
         }
       };
 
@@ -89,6 +90,18 @@ const SortingVisualizer = () => {
         animate(moves);
       };
 
+      const selectionSortHandle = () => {
+        const copy = [...arrayToSort];
+        const moves = selectionSort(copy);
+        animate(moves);
+      };
+
+      const insertionSortHandle = () => {
+        const copy = [...arrayToSort];
+        const moves = insertionSort(copy);
+        animate(moves);
+      };
+
       const animate = (moves) => {
         setEnabled();
         if (moves.length === 0) {
@@ -116,7 +129,7 @@ const SortingVisualizer = () => {
           bar.style.maxWidth = "35px";
           bar.style.color = "white";
           bar.style.overflow = "hidden";
-          bar.style.display = "inline-block"
+          bar.style.display = "inline-block";
           bar.style.backgroundColor = PRIMARY_COLOR;
           bar.innerHTML = arrayToSort[j];
           if (move && move.indices.includes(j)) {

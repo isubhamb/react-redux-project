@@ -5,11 +5,22 @@ import { fetchProducts, fetchFromCategory,getProducts,setStatus } from '../../..
 import { clearCart } from '../../../redux/Slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Header = () => {
   const dispatch = useDispatch();
   const selector = useSelector(state=>state.cartactions);
+  const {data} = useSelector(state=>state.productlist);
+  const [ suggest, setSuggest ] = useState([]);
   const navigate = useNavigate();
+  let productTitles = data.map((item)=>{
+      return item.title;
+  });
+  const handleSuggestions = (event) => {
+    setSuggest(productTitles.filter((item)=>item.includes(event.target.value)));
+  }
+
+
   const selectHandler = (e)=>{
     if(e.target.value==="electronics")
     {
@@ -61,7 +72,10 @@ const Header = () => {
           </select>
           <form class="navbar-form navbar-left me-5">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search" />
+              <input type="text" style={{width:"300px"}} class="form-control" placeholder="Search" onChange={(e)=>handleSuggestions(e)} list='suggestions' />
+              <datalist id='suggestions'>
+              { suggest && suggest.map((item)=><option>{item.substring(0,10)}</option>) }
+              </datalist>
               <div class="input-group-btn">
                 <button class=" btn btn-success ms-2" type="submit">
                   Search

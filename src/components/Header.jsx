@@ -17,8 +17,11 @@ function Header({ setStorage }) {
           <Nav className="ml-auto">
             {localStorage.getItem('USERNAME') === 'Admin' ? (
               <>
-                <Link className="nav-link" to="/dashboard">
+                <Link className="nav-link active" to="/dashboard">
                   Dashboard
+                </Link>
+                <Link className="nav-link active" to="/flighttracker">
+                  Flight Tracker
                 </Link>
                 <Link
                   className="btn btn-success"
